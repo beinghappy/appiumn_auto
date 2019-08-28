@@ -5,7 +5,7 @@ import re, os
 import math
 # 常用的性能监控
 def top_cpu(devices, pkg_name):
-    cmd = "adb -s "+devices+" shell dumpsys cpuinfo | grep -w " + pkg_name+":"
+    cmd = "adb -s " + devices + " shell \"dumpsys cpuinfo | grep -w " + pkg_name + ": \" "
     get_cmd = os.popen(cmd).readlines()
     for info in get_cmd:
         return float(info.split()[2].split("%")[0])
@@ -14,20 +14,20 @@ def top_cpu(devices, pkg_name):
 
 # 得到men的使用情况
 def get_men(devices, pkg_name):
-    cmd = "adb -s "+devices+" shell  dumpsys  meminfo %s"  %(pkg_name)
+    cmd = "adb -s " + devices + " shell  \"dumpsys  meminfo %s \" " % (pkg_name)
     total = "TOTAL"
     get_cmd = os.popen(cmd).readlines()
     for info in get_cmd:
         info_sp = info.strip().split()
         for item in range(len(info_sp)):
             if info_sp[item] == total:
-               return int(info_sp[item+1])
+                return int(info_sp[item + 1])
     return 0
 
 # 得到fps
 def get_fps(devices, pkg_name):
     print("fps-")
-    _adb = "adb -s "+devices+" shell dumpsys gfxinfo %s | grep -A 128 'Execute'  | grep -v '[a-Z]' "%pkg_name
+    _adb = "adb -s " + devices + " shell \" dumpsys gfxinfo %s | grep -A 128 'Execute'  | grep -v '[a-Z]' \" " % pkg_name
     result = os.popen(_adb).read().strip()
     result = result.split('\r\n')
     # r_result = [] # 总值
@@ -61,5 +61,5 @@ def read_report(f=""):
     op = OperateFile(f, "r")
     return op.read_txt_row()
 if __name__ == '__main__':
-    print(top_cpu(devices="DU2TAN15AJ049163",pkg_name="cn.ibona.t1_beta"))
+    print(top_cpu(devices="5LM0216122008070", pkg_name="com.hytera.ocesn"))
     pass

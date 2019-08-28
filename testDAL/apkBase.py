@@ -3,18 +3,34 @@ import math
 from math import  floor
 import subprocess
 import os
+import platform
 
 class ApkInfo():
     def __init__(self, apkpath):
         self.apkpath = apkpath
+        self.aaptPath = self.get_aapt_path()
+        if (platform.system() == 'Windows'):
+            self.cmd = " | findstr"
+        else:
+            self.cmd = " | grep"
 
-# 得到app的文件大小
+    @staticmethod
+    def get_aapt_path():
+        if "ANDROID_HOME" in os.environ:
+            root_dir = os.path.join(os.environ["ANDROID_HOME"], "build-tools")
+            for path, subdir, files in os.walk(root_dir):
+                if "aapt.exe" in files:
+                    return os.path.join(path, "aapt.exe")
+        else:
+            return "ANDROID_HOME not exist"
+
+    # 得到app的文件大小
     def get_apk_size(self):
         size = floor(os.path.getsize(self.apkpath)/(1024*1000))
         return str(size) + "M"
     # 得到版本
     def get_apk_version(self):
-        cmd = "aapt dump badging " + self.apkpath + " | grep versionName"
+        cmd = self.aaptPath+" dump badging " + self.apkpath + self.cmd + " versionName"
         result = ""
         p = subprocess.Popen(cmd, stdout=subprocess.PIPE,
                              stderr=subprocess.PIPE,
@@ -26,7 +42,7 @@ class ApkInfo():
 
     #得到应用名字
     def get_apk_name(self):
-        cmd = "aapt dump badging " + self.apkpath + " | grep application-label: "
+        cmd = self.aaptPath+" dump badging " + self.apkpath + self.cmd + " application-label: "
         result = ""
         p = subprocess.Popen(cmd, stdout=subprocess.PIPE,
                              stderr=subprocess.PIPE,
@@ -38,7 +54,7 @@ class ApkInfo():
 
     #得到包名
     def get_apk_pkg(self):
-        cmd = "aapt dump badging " + self.apkpath + " | grep package:"
+        cmd = self.aaptPath + " dump badging " + self.apkpath + self.cmd + " package: "
         result = ""
         p = subprocess.Popen(cmd, stdout=subprocess.PIPE,
                              stderr=subprocess.PIPE,
@@ -50,7 +66,7 @@ class ApkInfo():
 
     #得到启动类
     def get_apk_activity(self):
-        cmd = "aapt dump badging " + self.apkpath + " | grep launchable-activity:"
+        cmd = self.aaptPath + " dump badging " + self.apkpath + self.cmd + "  launchable-activity: "
         result = ""
         p = subprocess.Popen(cmd, stdout=subprocess.PIPE,
                              stderr=subprocess.PIPE,
