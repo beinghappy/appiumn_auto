@@ -11,7 +11,7 @@ class Log:
     def __init__(self):
 
         global logger, resultPath, logPath
-        resultPath ="d:\\appium"
+        resultPath = "f:\\appium"
         logPath = os.path.join(resultPath, (time.strftime('%Y%m%d%H%M%S', time.localtime())))
         if os.path.exists(logPath) == False:
             os.makedirs(logPath)

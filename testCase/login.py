@@ -8,6 +8,7 @@ from testBLL import appCase as b_app_case
 from testMode import appCase as m_app_case
 from testRunner.runnerBase import TestInterfaceCase as te
 from testBLL import apkBase
+from common.variable import GetVariable
 
 
 class testLogin(te):
@@ -23,9 +24,9 @@ class testLogin(te):
     # 单点登陆这里特殊处理,不同的设备调用不同的case
     def home_login(self):
         home_logon_yaml = ""
-        if self.l_devices["deviceName"] == "JTJ4C16331013562":
+        if self.l_devices["deviceName"] == GetVariable.DEVICE_NAME_1:
             home_logon_yaml = PATH("yaml/myinfo/home_login.yaml")
-        if self.l_devices["deviceName"] == "MSM8926":
+        if self.l_devices["deviceName"] == GetVariable.DEVICE_NAME_2:
             home_logon_yaml = PATH("yaml/myinfo/home_login1.yaml")
         self.bc.execCase(home_logon_yaml, test_name="test_home_login", isLast="0")
 
@@ -39,8 +40,9 @@ class testLogin(te):
     @staticmethod
     def tearDownClass():
         pass
-    def test_home(self):
-        # self.home_fist_open()
-        self.home_login()
-        self.home_feed()
 
+    def test_login(self):
+        # self.home_fist_open()
+        print("-----------test_login")
+        self.home_login()
+        # self.home_feed()

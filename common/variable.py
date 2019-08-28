@@ -1,5 +1,12 @@
 __author__ = 'shikun'
 # 查找元素的方式
+
+import os
+
+PATH = lambda p: os.path.abspath(
+    os.path.join(os.path.dirname(__file__), p)
+)
+
 class GetVariable(object):
     NAME = "name"
     ID = "id"
@@ -50,5 +57,9 @@ class GetVariable(object):
     APACHE_PATH = "D:/app/Apache2.2/htdocs/appium/log/" #apapche器的地址，开发可以在这个上面下载异常日志
 
     SCREEN_IMG_PATH = "D:/app/Apache2.2/htdocs/appium/img/" # 截图地址
+
+    APK_PATH = PATH('../img/monkneyTest.apk')
+    YAML_DEVICES_PATH = PATH("../devices.yaml")
+    YAML_EMAIL_PATH = PATH( '../email.ini' )
 
 

@@ -19,9 +19,10 @@ class testMonkey(te):
                                         driver=self.driver, package=self.get_apk_pkg(), devices=self.l_devices["deviceName"])
     def monkey_crash(self):
         _yaml = ""
-        if self.l_devices["deviceName"] == "JTJ4C16331013562":
+        print("---------monkey_crash")
+        if self.l_devices["deviceName"] == "5LM0216122008070":
             _yaml = PATH("yaml/monkey/crash.yaml")
-        if self.l_devices["deviceName"] == "DU2TAN15AJ049163":
+        if self.l_devices["deviceName"] == "888cd40b":
             _yaml = PATH("yaml/monkey/crash1.yaml")
         self.bc.execCase(_yaml, test_name="test_home_feed", isLast="1")
 
